@@ -13,6 +13,7 @@ import {
   Bot,
   Trash2,
   RefreshCcw,
+  Mail,
 } from "lucide-react";
 
 const formatWhen = (iso) => {
@@ -55,7 +56,12 @@ export default function EmailDetail({ email = null, onClose, onReprocess, onDele
 
   if (!data) {
     return (
-      <div className="card flex items-center justify-center text-slate-500">Select an email to view details.</div>
+      <div className="card flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <Mail className="h-12 w-12 text-slate-300 mx-auto mb-3" />
+          <p className="text-slate-500">Select an email to view details</p>
+        </div>
+      </div>
     );
   }
 
@@ -135,15 +141,15 @@ export default function EmailDetail({ email = null, onClose, onReprocess, onDele
             )}
           </div>
 
-          <div className="flex flex-wrap gap-3">
-          <button type="button" onClick={reply} className="inline-flex items-center gap-2 rounded-full bg-primary text-white px-4 py-2 text-sm transition hover:bg-primary/90 active:opacity-90"><Reply className="h-4 w-4" />Generate Reply</button>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={reply} className="btn-primary"><Reply className="h-4 w-4" />Generate Reply</button>
             {!data.is_processed && (
-              <button type="button" onClick={process} className="inline-flex items-center gap-2 rounded-full bg-secondary text-white px-4 py-2 text-sm transition hover:bg-secondary/90 active:opacity-90"><Bot className="h-4 w-4" />Process Email</button>
+              <button type="button" onClick={process} className="inline-flex items-center gap-2 rounded-full bg-secondary text-white px-4 py-2 text-sm font-medium transition hover:bg-secondary/90 active:scale-95"><Bot className="h-4 w-4" />Process Email</button>
             )}
             {data.is_processed && (
-              <button type="button" onClick={process} className="inline-flex items-center gap-2 rounded-full bg-slate-800 text-white px-4 py-2 text-sm transition hover:bg-slate-700 active:opacity-90"><RefreshCcw className="h-4 w-4" />Reprocess</button>
+              <button type="button" onClick={process} className="inline-flex items-center gap-2 rounded-full bg-slate-800 text-white px-4 py-2 text-sm font-medium transition hover:bg-slate-700 active:scale-95"><RefreshCcw className="h-4 w-4" />Reprocess</button>
             )}
-            <button type="button" onClick={remove} className="inline-flex items-center gap-2 rounded-full bg-red-600 text-white px-4 py-2 text-sm transition hover:bg-red-700 active:opacity-90"><Trash2 className="h-4 w-4" />Delete</button>
+            <button type="button" onClick={remove} className="inline-flex items-center gap-2 rounded-full bg-red-600 text-white px-4 py-2 text-sm font-medium transition hover:bg-red-700 active:scale-95"><Trash2 className="h-4 w-4" />Delete</button>
           </div>
         </div>
 

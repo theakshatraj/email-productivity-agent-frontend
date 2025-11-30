@@ -49,15 +49,15 @@ export default function DashboardClient() {
   return (
     <div className="space-y-6">
       <section className="card">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="section-title">Welcome</p>
             <h1 className="text-2xl font-semibold text-slate-900">Email Productivity Agent</h1>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={loadMockEmails} className="rounded-full border border-slate-200 px-3 py-2 text-sm">Load Mock Inbox</button>
-            <button type="button" onClick={processEmails} className="rounded-full border border-slate-200 px-3 py-2 text-sm">Process All Emails</button>
-            <Link href="/agent" className="rounded-full bg-primary text-white px-3 py-2 text-sm">Open Agent</Link>
+            <button type="button" onClick={loadMockEmails} className="btn-secondary">Load Mock Inbox</button>
+            <button type="button" onClick={processEmails} className="btn-secondary">Process All Emails</button>
+            <Link href="/agent" className="btn-primary">Open Agent</Link>
           </div>
         </div>
       </section>
@@ -70,9 +70,9 @@ export default function DashboardClient() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-3">
-        <div className="card lg:col-span-1">
-          <p className="text-sm font-semibold text-slate-900 mb-2">Emails by category</p>
-          <div className="h-56">
+        <div className="card lg:col-span-1 flex flex-col">
+          <p className="text-sm font-semibold text-slate-900 mb-4">Emails by category</p>
+          <div className="flex-1 min-h-[14rem]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius={40} outerRadius={80}>
@@ -85,16 +85,16 @@ export default function DashboardClient() {
           </div>
         </div>
 
-        <div className="card lg:col-span-2">
-          <div className="flex items-center justify-between mb-3">
+        <div className="card lg:col-span-2 flex flex-col">
+          <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-semibold text-slate-900">Recent emails</p>
-            <button type="button" onClick={refreshStats} className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs"><RefreshCcw className="h-3 w-3" />Refresh</button>
+            <button type="button" onClick={refreshStats} className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs hover:bg-slate-50"><RefreshCcw className="h-3 w-3" />Refresh</button>
           </div>
           <ul className="grid gap-3 sm:grid-cols-2">
             {recent.map((e) => (
-              <li key={e.id} className="rounded-xl border border-slate-200 bg-white p-4">
-                <p className="text-sm font-semibold text-slate-900">{e.subject}</p>
-                <p className="text-xs text-slate-500">{e.sender}</p>
+              <li key={e.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-sm font-semibold text-slate-900 line-clamp-2">{e.subject}</p>
+                <p className="text-xs text-slate-500 mt-1">{e.sender}</p>
                 <p className="text-xs text-slate-400 mt-1">{new Date(e.timestamp).toLocaleString()}</p>
               </li>
             ))}

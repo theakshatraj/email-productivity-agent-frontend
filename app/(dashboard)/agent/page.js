@@ -68,33 +68,33 @@ export default function AgentPage() {
   }, [actions, drafts, contextEmail]);
 
   return (
-    <div className="min-h-[calc(100vh-6rem)] grid grid-cols-1 lg:grid-cols-[20%_55%_25%]">
-      <aside className="border-r border-slate-200 bg-white p-3 overflow-y-auto min-w-0">
-        <div className="flex items-center justify-between mb-3">
-          <button type="button" onClick={newConversation} className="inline-flex items-center gap-2 rounded-full bg-primary text-white px-3 py-2 text-sm"><Plus className="h-4 w-4" />New Conversation</button>
-          <button type="button" onClick={clearAll} className="rounded-full border border-slate-200 px-3 py-2 text-xs">Clear All</button>
+    <div className="min-h-[calc(100vh-8rem)] grid grid-cols-1 lg:grid-cols-[22%_53%_25%] gap-0">
+      <aside className="border-r border-slate-200 bg-white p-4 overflow-y-auto">
+        <div className="flex flex-col gap-2 mb-4">
+          <button type="button" onClick={newConversation} className="btn-primary w-full"><Plus className="h-4 w-4" />New Conversation</button>
+          <button type="button" onClick={clearAll} className="btn-secondary w-full text-xs">Clear All</button>
         </div>
         <ul className="space-y-2">
           {conversationHistory.map((c) => (
-            <li key={c.id} className={`flex items-center justify-between rounded-xl border border-slate-200 p-3 ${currentConversation?.id === c.id ? 'bg-slate-50' : 'bg-white'}`}> 
-              <button type="button" onClick={() => setCurrentConversation(c)} className="text-left flex-1">
-                <p className="text-sm font-medium text-slate-900 line-clamp-1">{c.title}</p>
-                <p className="text-xs text-slate-500">{new Date(c.createdAt).toLocaleString()}</p>
+            <li key={c.id} className={`flex items-start gap-2 rounded-lg border p-3 transition ${currentConversation?.id === c.id ? 'bg-primary/5 border-primary/30' : 'bg-white border-slate-200 hover:bg-slate-50'}`}>
+              <button type="button" onClick={() => setCurrentConversation(c)} className="text-left flex-1 min-w-0">
+                <p className="text-sm font-medium text-slate-900 line-clamp-2">{c.title}</p>
+                <p className="text-xs text-slate-500 mt-1">{new Date(c.createdAt).toLocaleString()}</p>
               </button>
-              <button type="button" onClick={() => deleteConversation(c.id)} className="rounded-full border border-slate-200 px-2 py-1 text-xs"><Trash2 className="h-3 w-3 text-red-600" /></button>
+              <button type="button" onClick={() => deleteConversation(c.id)} className="rounded-full p-1 hover:bg-red-50"><Trash2 className="h-3.5 w-3.5 text-red-600" /></button>
             </li>
           ))}
-          {conversationHistory.length === 0 && <p className="text-xs text-slate-500">No conversations</p>}
+          {conversationHistory.length === 0 && <p className="text-sm text-slate-500 text-center py-8">No conversations</p>}
         </ul>
       </aside>
 
-      <main className="bg-white border-r border-slate-200 overflow-y-auto min-w-0">
+      <main className="bg-white border-r border-slate-200 overflow-y-auto">
         <div className="h-full">
           <EmailAgent selectedEmail={contextEmail} initialMessages={initialMessages} onMessagesChange={onMessagesChange} />
         </div>
       </main>
 
-      <aside className="bg-white p-3 overflow-y-auto min-w-0">
+      <aside className="bg-white p-4 overflow-y-auto">
         <div className="flex items-center justify-between mb-2">
           <p className="text-sm font-semibold">Context</p>
           <button type="button" onClick={() => setShowAttach(true)} className="rounded-full border border-slate-200 px-2 py-1 text-xs">Add Context</button>

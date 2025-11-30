@@ -62,30 +62,30 @@ export default function PromptsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
           <p className="section-title">Prompts</p>
           <h1 className="text-2xl font-semibold text-slate-900">Prompt Configuration</h1>
-          <p className="text-sm text-slate-500">Customize how the AI processes your emails</p>
+          <p className="text-sm text-slate-500 mt-1">Customize how the AI processes your emails</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={() => resetPrompts()} className="inline-flex items-center gap-2 rounded-full bg-slate-800 text-white px-3 py-2 text-sm"><RotateCcw className="h-4 w-4" />Reset to Defaults</button>
-          <button type="button" onClick={exportAll} className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-sm"><Download className="h-4 w-4" />Export All</button>
-          <label className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-sm cursor-pointer">
+        <div className="flex flex-wrap items-center gap-2">
+          <button type="button" onClick={() => resetPrompts()} className="inline-flex items-center gap-2 rounded-full bg-slate-800 text-white px-4 py-2 text-sm font-medium transition hover:bg-slate-700 active:scale-95"><RotateCcw className="h-4 w-4" />Reset to Defaults</button>
+          <button type="button" onClick={exportAll} className="btn-secondary"><Download className="h-4 w-4" />Export All</button>
+          <label className="btn-secondary cursor-pointer">
             <Upload className="h-4 w-4" /> Import
             <input type="file" accept="application/json" hidden onChange={(e) => e.target.files?.[0] && importAll(e.target.files[0])} />
           </label>
         </div>
       </div>
 
-      <div className="flex gap-2 text-sm">
+      <div className="flex gap-2 text-sm overflow-x-auto pb-2">
         {[
           { id: 'active', label: 'Active Prompts' },
           { id: 'library', label: 'Prompt Library' },
           { id: 'playground', label: 'Test Playground' },
           { id: 'docs', label: 'Documentation' },
         ].map((t) => (
-          <button key={t.id} type="button" onClick={() => setTab(t.id)} className={`rounded-full px-3 py-1 ${tab === t.id ? 'bg-primary text-white' : 'border border-slate-200'}`}>{t.label}</button>
+          <button key={t.id} type="button" onClick={() => setTab(t.id)} className={`rounded-full px-4 py-2 font-medium transition whitespace-nowrap ${tab === t.id ? 'bg-primary text-white' : 'border border-slate-200 hover:bg-slate-50'}`}>{t.label}</button>
         ))}
       </div>
 

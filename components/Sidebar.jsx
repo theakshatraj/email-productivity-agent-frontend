@@ -71,7 +71,7 @@ export default function Sidebar({ isOpen = false, onClose = () => {} }) {
         </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4">
+      <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map(({ label, href, icon: Icon }) => {
           const isActive = pathname === href || (href === '/' && pathname === '/');
           const count = counts[label];
@@ -81,14 +81,14 @@ export default function Sidebar({ isOpen = false, onClose = () => {} }) {
               href={href}
               title={label}
               onClick={onClose}
-              className={`group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium tracking-wide transition-all active:scale-[0.98] ${
+              className={`group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all active:scale-[0.98] ${
                 isActive
-                  ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                  ? 'bg-primary text-white shadow-md'
                   : 'text-white/70 hover:bg-white/10 hover:text-white'
               }`}
             >
-              <Icon className="h-5 w-5" />
-              <span>{label}</span>
+              <Icon className="h-5 w-5 flex-shrink-0" />
+              <span className="flex-1">{label}</span>
               {count > 0 && <span className={badgeStyles}>{count}</span>}
             </Link>
           );
