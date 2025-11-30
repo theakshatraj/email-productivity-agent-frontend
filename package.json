@@ -9,14 +9,23 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "axios": "^1.13.2",
+    "highlight.js": "^11.11.1",
+    "lucide-react": "^0.554.0",
     "next": "16.0.4",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.5.0",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
-    "tailwindcss": "^4"
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.14"
   }
 }
