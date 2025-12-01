@@ -11,15 +11,20 @@ import { Mail, ListChecks, FileText, Zap, RefreshCcw } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 const StatCard = ({ label, value, hint, icon: Icon, color }) => (
-  <div className="card flex flex-col">
-    <div className="flex items-center justify-between">
-      <p className="text-sm text-slate-500">{label}</p>
-      <div className={`h-8 w-8 rounded-xl ${color} text-white flex items-center justify-center`}>
-        <Icon className="h-4 w-4" />
+  <div className="card-interactive group">
+    <div className="flex items-start justify-between mb-4">
+      <div>
+        <p className="text-sm font-medium text-secondary-600">{label}</p>
+      </div>
+      <div className={`h-12 w-12 rounded-lg ${color} text-white flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
+        <Icon className="h-6 w-6" />
       </div>
     </div>
-    <p className="text-3xl font-semibold text-slate-900 mt-2">{value}</p>
-    <p className="text-xs text-slate-400 mt-auto">{hint}</p>
+    <div className="space-y-3">
+      <p className="text-4xl font-bold text-secondary-900">{value}</p>
+      <div className="h-px bg-gradient-to-r from-primary/50 to-transparent" />
+      <p className="text-xs text-secondary-500 font-medium">{hint}</p>
+    </div>
   </div>
 );
 
@@ -47,35 +52,37 @@ export default function DashboardClient() {
   })();
 
   return (
-    <div className="space-y-6">
-      <section className="card">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <p className="section-title">Welcome</p>
-            <h1 className="text-2xl font-semibold text-slate-900">Email Productivity Agent</h1>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={loadMockEmails} className="btn-secondary">Load Mock Inbox</button>
-            <button type="button" onClick={processEmails} className="btn-secondary">Process All Emails</button>
-            <Link href="/agent" className="btn-primary">Open Agent</Link>
-          </div>
+    <div className="space-y-8">
+      <div className="page-header">
+        <div>
+          <p className="section-title">Dashboard</p>
+          <h1 className="page-title">Inbox Intelligence</h1>
+          <p className="page-subtitle">AI-powered email management and automation</p>
         </div>
-      </section>
+        <div className="flex flex-wrap gap-3">
+          <button type="button" onClick={loadMockEmails} className="btn-secondary">Load Mock Inbox</button>
+          <button type="button" onClick={processEmails} className="btn-secondary">Process All Emails</button>
+          <Link href="/agent" className="btn-primary">Open Agent</Link>
+        </div>
+      </div>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Total emails" value={totalEmails} hint="All items" icon={Mail} color="bg-primary" />
-        <StatCard label="Pending actions" value={pendingActions} hint="Needs attention" icon={ListChecks} color="bg-orange-500" />
-        <StatCard label="Drafts" value={draftCount} hint="Agent generated" icon={FileText} color="bg-blue-500" />
-        <StatCard label="Processing" value={`${processed}/${totalEmails}`} hint={`${processingPct}% processed`} icon={Zap} color="bg-emerald-500" />
+      <section className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4 animate-slide-up">
+        <StatCard label="Total emails" value={totalEmails} hint="All items" icon={Mail} color="bg-gradient-to-br from-primary to-primary-dark" />
+        <StatCard label="Pending actions" value={pendingActions} hint="Needs attention" icon={ListChecks} color="bg-gradient-to-br from-warning-500 to-warning-600" />
+        <StatCard label="Drafts" value={draftCount} hint="Agent generated" icon={FileText} color="bg-gradient-to-br from-accent to-accent-dark" />
+        <StatCard label="Processing" value={`${processed}/${totalEmails}`} hint={`${processingPct}% processed`} icon={Zap} color="bg-gradient-to-br from-success-500 to-success-600" />
       </section>
 
       <section className="grid gap-6 lg:grid-cols-3">
         <div className="card lg:col-span-1 flex flex-col">
-          <p className="text-sm font-semibold text-slate-900 mb-4">Emails by category</p>
-          <div className="flex-1 min-h-[14rem]">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-bold text-secondary-900">Email Distribution</h3>
+            <button type="button" onClick={refreshStats} className="btn-ghost"><RefreshCcw className="h-4 w-4" /></button>
+          </div>
+          <div className="flex-1 min-h-[16rem]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius={40} outerRadius={80}>
+                <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
                   {categoryData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                   ))}
@@ -86,61 +93,64 @@ export default function DashboardClient() {
         </div>
 
         <div className="card lg:col-span-2 flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-sm font-semibold text-slate-900">Recent emails</p>
-            <button type="button" onClick={refreshStats} className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs hover:bg-slate-50"><RefreshCcw className="h-3 w-3" />Refresh</button>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-bold text-secondary-900">Recent Activity</h3>
+            <span className="badge badge-primary">{recent.length} new</span>
           </div>
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <div className="space-y-3">
             {recent.map((e) => (
-              <li key={e.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-slate-900 line-clamp-2">{e.subject}</p>
-                <p className="text-xs text-slate-500 mt-1">{e.sender}</p>
-                <p className="text-xs text-slate-400 mt-1">{new Date(e.timestamp).toLocaleString()}</p>
-              </li>
+              <div key={e.id} className="group card-interactive">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Mail className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-secondary-900 line-clamp-1 group-hover:text-primary transition-colors">{e.subject}</p>
+                    <p className="text-xs text-secondary-500 mt-1">{e.sender}</p>
+                  </div>
+                  <span className="flex-shrink-0 text-xs text-secondary-400">{new Date(e.timestamp).toLocaleDateString()}</span>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">
         <div className="card">
-          <p className="text-sm font-semibold text-slate-900 mb-2">Quick insights</p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="text-xs text-slate-500">Most active sender</p>
-              <p className="text-sm font-semibold text-slate-900">{mostActiveSender.sender}</p>
+          <h3 className="text-lg font-bold text-secondary-900 mb-6">Insights</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 p-4">
+              <p className="text-xs font-semibold text-secondary-600 uppercase tracking-wider">Top Sender</p>
+              <p className="text-lg font-bold text-secondary-900 mt-2">{mostActiveSender.sender}</p>
+              <p className="text-xs text-secondary-500 mt-1">{mostActiveSender.count} emails</p>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="text-xs text-slate-500">Needs attention</p>
-              <p className="text-sm font-semibold text-slate-900">{attention.length}</p>
+            <div className="rounded-lg bg-gradient-to-br from-warning-50 to-warning-100 border border-warning-200 p-4">
+              <p className="text-xs font-semibold text-secondary-600 uppercase tracking-wider">Urgent</p>
+              <p className="text-lg font-bold text-secondary-900 mt-2">{attention.length}</p>
+              <p className="text-xs text-secondary-500 mt-1">Need attention</p>
             </div>
           </div>
         </div>
         <div className="card">
-          <p className="text-sm font-semibold text-slate-900 mb-2">Action required</p>
-          <ul className="space-y-2">
-            {actions.filter((a) => a.status === "pending").slice(0, 5).map((a) => (
-              <li key={a.id} className="flex items-center justify-between rounded-lg border border-slate-200 p-3">
-                <span className="text-sm text-slate-800">{a.task_description}</span>
-                <span className="text-xs text-slate-400">{a.deadline || "No deadline"}</span>
-              </li>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-bold text-secondary-900">Pending Actions</h3>
+            <span className="badge badge-danger">{pendingActions}</span>
+          </div>
+          <div className="space-y-3">
+            {actions.filter((a) => a.status === "pending").slice(0, 4).map((a) => (
+              <div key={a.id} className="flex items-start gap-3 p-3 rounded-lg bg-danger-50 border border-danger-100 hover:bg-danger-100 transition-colors duration-200">
+                <div className="h-2 w-2 rounded-full bg-danger-500 mt-1.5 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-secondary-900">{a.task_description}</p>
+                  <p className="text-xs text-secondary-500 mt-1">{a.deadline || "No deadline"}</p>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-2">
-        <EmailList />
-        <EmailDetail />
-      </section>
-
-      <section className="grid gap-6 lg:grid-cols-2">
-        <PromptEditor />
-        <div className="grid gap-6">
-          <EmailAgent />
-          <DraftManager />
-        </div>
-      </section>
     </div>
   );
 }

@@ -1,14 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light;
+  --primary: #4F46E5;
+  --primary-dark: #4338CA;
+  --secondary: #111827;
+  --accent: #06B6D4;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+    @apply bg-gradient-to-br from-slate-50 via-white to-slate-50 text-secondary-900 font-sans antialiased;
   }
 
   ::selection {
@@ -18,30 +28,126 @@
   * {
     @apply box-border;
   }
+
+  h1 {
+    @apply text-3xl font-bold tracking-tight;
+  }
+
+  h2 {
+    @apply text-2xl font-bold tracking-tight;
+  }
+
+  h3 {
+    @apply text-xl font-semibold;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
 }
 
 @layer components {
   .card {
-    @apply bg-white rounded-xl shadow-sm p-6 border border-slate-200 h-full;
+    @apply bg-white rounded-2xl shadow-card border border-secondary-100 p-6 h-full transition-all duration-300 hover:shadow-hover hover:border-secondary-200;
+  }
+
+  .card-interactive {
+    @apply card cursor-pointer hover:scale-[1.02];
   }
 
   .section-title {
-    @apply text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 mb-1;
+    @apply text-xs font-semibold uppercase tracking-widest text-secondary-500 mb-2;
   }
 
   .page-header {
-    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6;
+    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8;
+  }
+
+  .page-title {
+    @apply text-3xl font-bold text-secondary-900;
+  }
+
+  .page-subtitle {
+    @apply text-base text-secondary-600 mt-1;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary text-white px-4 py-2 text-sm font-medium transition hover:bg-primary/90 active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary hover:bg-primary-700 text-white px-4 py-2.5 text-sm font-semibold transition-all duration-200 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition hover:bg-slate-50 active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-secondary-200 bg-white hover:bg-secondary-50 text-secondary-700 px-4 py-2.5 text-sm font-semibold transition-all duration-200 hover:border-secondary-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-secondary-600 hover:text-secondary-900 px-2 py-1 text-sm font-medium transition-colors duration-200;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-danger-500 hover:bg-danger-600 text-white px-4 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50;
+  }
+
+  .btn-success {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-success-500 hover:bg-success-600 text-white px-4 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-95;
   }
 
   .input-field {
-    @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary;
+    @apply w-full rounded-lg border border-secondary-200 bg-white px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200;
+  }
+
+  .input-field::placeholder {
+    @apply text-secondary-400;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary/10 text-primary;
+  }
+
+  .badge-success {
+    @apply badge bg-success-50 text-success-600;
+  }
+
+  .badge-warning {
+    @apply badge bg-warning-50 text-warning-600;
+  }
+
+  .badge-danger {
+    @apply badge bg-danger-50 text-danger-600;
+  }
+
+  .divider {
+    @apply border-t border-secondary-100;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
